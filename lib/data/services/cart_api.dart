@@ -18,11 +18,7 @@ class CartApi {
     try {
       await Future.delayed(apiMockTimeout);
 
-      //Simulando erro ao atualizar carrinho
-      if ((cart.items?.isEmpty ?? false)) {
-        throw FlutterError('Não é possível remover o último item do carrinho.');
-      }
-
+      // Permitir carrinho vazio - comportamento normal
       _cartCache.items = cart.items;
     } catch (e) {
       throw FlutterError('Erro ao atualizar carrinho!');

@@ -6,3 +6,6 @@ const double defaultElevation = 0.0;
 const double smallFontSize = 14.0;
 const double mediumFontSize = 16.0;
 const double largeFontSize = 20.0;
+
+const double buttonHeight = 48.0;
+const double defaultHeightSpace = 20.0;

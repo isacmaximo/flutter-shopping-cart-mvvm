@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_entity.dart';
-import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_item_entity.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/product_entity.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/add_to_cart_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/get_cart_usecase.dart';
@@ -19,13 +18,21 @@ class CartStore extends ChangeNotifier {
 
   CartEntity _cart = CartEntity(userId: 1, items: []);
   CartEntity get cart => _cart;
+
+  String _errorMessage = '';
+  String get errorMessage => _errorMessage;
+
+  int get quantity => _cart.differentProductsCount;
+
+  int getCurrentItemQuantity(ProductEntity product) {
+    return _cart.getCurrentItemQuantity(product);
+  }
+
   void setCart(CartEntity cart) {
     _cart = cart;
     notifyListeners();
   }
 
-  String _errorMessage = '';
-  String get errorMessage => _errorMessage;
   void setErrorMessage(String value) {
     _errorMessage = value;
     notifyListeners();
@@ -50,9 +57,9 @@ class CartStore extends ChangeNotifier {
     }
   }
 
-  void removeFromCartLocal(CartItemEntity cartItem) {
+  void removeFromCartLocal(ProductEntity product) {
     try {
-      _cart.removeProduct(cartItem.product!);
+      _cart.removeProduct(product);
       notifyListeners();
     } on FlutterError catch (e) {
       throw FlutterError(e.message);
@@ -73,11 +80,5 @@ class CartStore extends ChangeNotifier {
     } on FlutterError catch (e) {
       throw FlutterError(e.message);
     }
-  }
-
-  int get quantity => _cart.items?.length ?? 0;
-
-  int getCurrentItemQuantity(ProductEntity product) {
-    return _cart.getCurrentItemQuantity(product);
   }
 }
