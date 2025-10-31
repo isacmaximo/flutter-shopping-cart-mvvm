@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_entity.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_item_entity.dart';
