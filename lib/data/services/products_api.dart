@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_cart_mvvm/data/http/custom_http_client.dart';
 import 'package:flutter_shopping_cart_mvvm/data/models/dto/product_dto.dart';
-import 'package:flutter_shopping_cart_mvvm/utils/api.dart';
+import 'package:flutter_shopping_cart_mvvm/utils/constants/api.dart';
 
 class ProductsApi {
   final CustomHttpClient _httpClient;
@@ -13,7 +13,9 @@ class ProductsApi {
   Future<List<ProductDto>> getProducts() async {
     try {
       Response response = await _httpClient.get(_baseUrl);
-      return response.data.map((json) => ProductDto.fromMap(json)).toList();
+      return (response.data as List)
+          .map((json) => ProductDto.fromMap(json as Map<String, dynamic>))
+          .toList();
     } on DioException catch (e) {
       throw FlutterError('Erro ao obter produtos: ${e.message}');
     }

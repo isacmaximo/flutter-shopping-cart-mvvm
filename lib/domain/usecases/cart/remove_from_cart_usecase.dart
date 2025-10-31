@@ -1,4 +1,4 @@
-import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_item_entity.dart';
+import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_entity.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/repository/cart_repository.dart';
 
 class RemoveFromCartUseCase {
@@ -6,9 +6,7 @@ class RemoveFromCartUseCase {
 
   RemoveFromCartUseCase(this._cartRepository);
 
-  Future<void> call(CartItemEntity cartItem) async {
-    final cart = await _cartRepository.getCart();
-    cart.removeItem(cartItem);
-    await _cartRepository.saveCart(cart);
+  Future<void> call(CartEntity cart) async {
+    return await _cartRepository.updateCart(cart);
   }
 }

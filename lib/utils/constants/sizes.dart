@@ -1,4 +1,5 @@
 const double defaultPadding = 16.0;
+const double defaultCardPadding = 32.0;
 const double defaultRadius = 8.0;
 const double defaultElevation = 0.0;
 

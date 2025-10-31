@@ -37,4 +37,9 @@ class CartDto {
     userId: userId,
     items: items?.map((x) => x.toEntity()).toList(),
   );
+
+  factory CartDto.fromEntity(CartEntity cart) => CartDto(
+    userId: cart.userId,
+    items: cart.items?.map((x) => CartItemDto.fromEntity(x)).toList(),
+  );
 }

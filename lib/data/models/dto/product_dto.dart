@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_shopping_cart_mvvm/data/models/dto/rating_dto.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/product_entity.dart';
 
@@ -38,7 +37,7 @@ class ProductDto {
     return ProductDto(
       id: map['id'] != null ? map['id'] as int : null,
       title: map['title'] != null ? map['title'] as String : null,
-      price: map['price'] != null ? map['price'] as double : null,
+      price: map['price'] != null ? (map['price'] as num).toDouble() : null,
       category: map['category'] != null ? map['category'] as String : null,
       description: map['description'] != null
           ? map['description'] as String
@@ -58,6 +57,7 @@ class ProductDto {
   ProductEntity toEntity() {
     return ProductEntity(
       id: id,
+      image: image,
       title: title,
       price: price,
       category: category,
@@ -66,6 +66,7 @@ class ProductDto {
 
   factory ProductDto.fromEntity(ProductEntity product) => ProductDto(
     id: product.id,
+    image: product.image,
     title: product.title,
     price: product.price,
     category: product.category,

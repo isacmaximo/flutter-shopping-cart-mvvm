@@ -11,7 +11,7 @@ class RatingDto {
 
   factory RatingDto.fromMap(Map<String, dynamic> map) {
     return RatingDto(
-      rate: map['rate'] != null ? map['rate'] as double : null,
+      rate: map['rate'] != null ? (map['rate'] as num).toDouble() : null,
       count: map['count'] != null ? map['count'] as int : null,
     );
   }
