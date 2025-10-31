@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_entity.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/product_entity.dart';
-import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/add_to_cart_usecase.dart';
+import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/update_cart_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/get_cart_usecase.dart';
-import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/remove_from_cart_usecase.dart';
 
 class CartStore extends ChangeNotifier {
-  final AddToCartUseCase _addToCartUseCase;
-  final RemoveFromCartUseCase _removeFromCartUseCase;
+  final UpdateCartUseCase _updateCartUseCase;
   final GetCartUseCase _getCartUseCase;
 
-  CartStore(
-    this._addToCartUseCase,
-    this._removeFromCartUseCase,
-    this._getCartUseCase,
-  );
+  CartStore(this._updateCartUseCase, this._getCartUseCase);
 
   CartEntity _cart = CartEntity(userId: 1, items: []);
   CartEntity get cart => _cart;
@@ -66,17 +60,9 @@ class CartStore extends ChangeNotifier {
     }
   }
 
-  Future<void> addToCartApi() async {
+  Future<void> updateCartApi() async {
     try {
-      await _addToCartUseCase.call(_cart);
-    } on FlutterError catch (e) {
-      throw FlutterError(e.message);
-    }
-  }
-
-  Future<void> removeFromCartApi() async {
-    try {
-      await _removeFromCartUseCase.call(cart);
+      await _updateCartUseCase.call(_cart);
     } on FlutterError catch (e) {
       throw FlutterError(e.message);
     }

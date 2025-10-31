@@ -60,7 +60,53 @@ class CartViewModel extends ChangeNotifier {
     }
   }
 
+  Future<void> updateCartAndGet() async {
+    try {
+      setViewState(ViewState.loading);
+      await _cartStore.updateCartApi().whenComplete(
+        () async => await _cartStore.getCartApi(),
+      );
+      setViewState(ViewState.value);
+      clearError();
+    } on FlutterError catch (e) {
+      setErrorMessage(e.message);
+      setViewState(ViewState.error);
+    }
+  }
+
+  bool sameCart(CartEntity cart1, CartEntity cart2) {
+    if (cart1.userId != cart2.userId) {
+      return false;
+    }
+    if (cart1.items?.length != cart2.items?.length) {
+      return false;
+    }
+    for (var item1 in cart1.items ?? []) {
+      bool found = false;
+      for (var item2 in cart2.items ?? []) {
+        if (item1.product.id == item2.product.id &&
+            item1.quantity == item2.quantity) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<CartEntity?> checkoutAndClearCart() async {
+    CartEntity? cartToCompareOnSave = _cartStore.cart;
+    await updateCartAndGet();
+    if (!sameCart(cartToCompareOnSave, _cartStore.cart)) {
+      setErrorMessage(
+        'Problema ao finalizar compra, carrinho foi alterado duarante o processo',
+      );
+      return null;
+    }
+
     try {
       setViewState(ViewState.loading);
 
