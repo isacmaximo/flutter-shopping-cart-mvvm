@@ -23,6 +23,13 @@ abstract class TextStyles {
     fontWeight: FontWeight.w300,
     color: onSurfaceColor,
   );
+
+  static TextStyle mediumLightError = TextStyle(
+    fontSize: mediumFontSize,
+    fontWeight: FontWeight.w300,
+    color: errorColor,
+  );
+
   static TextStyle mediumRegular = TextStyle(
     fontSize: mediumFontSize,
     fontWeight: FontWeight.w500,
@@ -43,9 +50,19 @@ abstract class TextStyles {
     fontWeight: FontWeight.w500,
     color: onSurfaceColor,
   );
+  static TextStyle largeRegularPrice = TextStyle(
+    fontSize: largeFontSize,
+    fontWeight: FontWeight.w500,
+    color: secondaryColor,
+  );
   static TextStyle largeBold = TextStyle(
     fontSize: largeFontSize,
     fontWeight: FontWeight.w700,
     color: onSurfaceColor,
+  );
+  static TextStyle largeBoldTitleAppBar = TextStyle(
+    fontSize: largeFontSize,
+    fontWeight: FontWeight.w700,
+    color: surfaceColor,
   );
 }

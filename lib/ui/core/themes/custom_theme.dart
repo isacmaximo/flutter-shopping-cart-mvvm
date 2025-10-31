@@ -13,6 +13,7 @@ abstract class CustomTheme {
       onPrimary: surfaceColor,
       secondary: secondaryColor,
       onSecondary: surfaceColor,
+      tertiary: buttonColor,
       surface: surfaceColor,
       onSurface: onSurfaceColor,
       error: errorColor,
@@ -36,8 +37,10 @@ abstract class CustomTheme {
       ),
     ),
     appBarTheme: AppBarTheme(
+      backgroundColor: primaryColor,
       foregroundColor: surfaceColor,
-      titleTextStyle: TextStyles.largeRegular,
+      centerTitle: true,
+      titleTextStyle: TextStyles.largeBoldTitleAppBar,
       elevation: defaultElevation,
     ),
   );

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_shopping_cart_mvvm/data/models/dto/cart_dto.dart';
 import 'package:flutter_shopping_cart_mvvm/data/services/cart_api.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/entities/cart_entity.dart';
@@ -10,13 +11,21 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<CartEntity> getCart() async {
-    CartDto cartDto = await _cartApi.getCart();
-    return cartDto.toEntity();
+    try {
+      CartDto cartDto = await _cartApi.getCart();
+      return cartDto.toEntity();
+    } on FlutterError catch (e) {
+      throw FlutterError(e.message);
+    }
   }
 
   @override
-  Future<void> saveCart(CartEntity cart) async {
-    CartDto cartDto = CartDto.fromEntity(cart);
-    await _cartApi.updateCart(cartDto);
+  Future<void> updateCart(CartEntity cart) async {
+    try {
+      CartDto cartDto = CartDto.fromEntity(cart);
+      await _cartApi.updateCart(cartDto);
+    } on FlutterError catch (e) {
+      throw FlutterError(e.message);
+    }
   }
 }
