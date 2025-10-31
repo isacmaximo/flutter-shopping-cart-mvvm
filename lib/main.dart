@@ -12,9 +12,8 @@ import 'package:flutter_shopping_cart_mvvm/domain/repository/cart_repository.dar
 import 'package:flutter_shopping_cart_mvvm/domain/repository/checkout_repository.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/repository/product_repository.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/store/cart_store.dart';
-import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/add_to_cart_usecase.dart';
+import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/update_cart_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/get_cart_usecase.dart';
-import 'package:flutter_shopping_cart_mvvm/domain/usecases/cart/remove_from_cart_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/checkout/do_checkout_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/domain/usecases/product/get_product_usecase.dart';
 import 'package:flutter_shopping_cart_mvvm/ui/cart/view_model/cart_view_model.dart';
@@ -52,12 +51,13 @@ void main() {
               CheckoutRepositoryImpl(context.read<CheckoutApi>()),
         ),
 
-        Provider<AddToCartUseCase>(
-          create: (context) => AddToCartUseCase(context.read<CartRepository>()),
-        ),
-        Provider<RemoveFromCartUseCase>(
+        Provider<UpdateCartUseCase>(
           create: (context) =>
-              RemoveFromCartUseCase(context.read<CartRepository>()),
+              UpdateCartUseCase(context.read<CartRepository>()),
+        ),
+        Provider<UpdateCartUseCase>(
+          create: (context) =>
+              UpdateCartUseCase(context.read<CartRepository>()),
         ),
         Provider<GetCartUseCase>(
           create: (context) => GetCartUseCase(context.read<CartRepository>()),
@@ -76,8 +76,7 @@ void main() {
 
         ChangeNotifierProvider<CartStore>(
           create: (context) => CartStore(
-            context.read<AddToCartUseCase>(),
-            context.read<RemoveFromCartUseCase>(),
+            context.read<UpdateCartUseCase>(),
             context.read<GetCartUseCase>(),
           ),
         ),
