@@ -4,6 +4,7 @@ import 'package:flutter_shopping_cart_mvvm/domain/entities/product_entity.dart';
 
 class CartEntity {
   static const int maxDifferentProducts = 10;
+  static const double shippingPrice = 10.0;
 
   int? userId;
   List<CartItemEntity>? items;
@@ -17,12 +18,15 @@ class CartEntity {
       total += totalItemPrice;
     }
     //Frete fixo simulado
-    double shipping = 10.0;
-    total += shipping;
+    total += shippingPrice;
     return total;
   }
 
+  double get shippingPriceValue => shippingPrice;
+  double get subtotalPrice => totalPrice - shippingPrice;
+
   int get differentProductsCount => items?.length ?? 0;
+  bool get isEmpty => items?.isEmpty ?? true;
 
   bool containsProduct(ProductEntity product) {
     if (items == null) return false;
@@ -35,7 +39,6 @@ class CartEntity {
     return false;
   }
 
-  /// Encontra um item específico no carrinho
   CartItemEntity? findItem(ProductEntity product) {
     if (items == null) return null;
 
@@ -51,18 +54,12 @@ class CartEntity {
     //Se for null = [], se não, não faça nada
     items ??= [];
 
-    CartItemEntity? existingItem;
-    for (CartItemEntity item in items!) {
-      if (item.product?.id == product.id) {
-        existingItem = item;
-        break;
-      }
-    }
+    CartItemEntity? existingItem = findItem(product);
 
     if (existingItem != null) {
       existingItem.quantity = (existingItem.quantity ?? 0) + quantity;
     } else {
-      //se o produto é novo
+      //se o produto é novo, verifique se o limite de produtos diferentes foi atingido
       if (differentProductsCount >= maxDifferentProducts) {
         throw FlutterError(
           'Limite de $maxDifferentProducts produtos diferentes atingido',
@@ -78,16 +75,7 @@ class CartEntity {
       throw FlutterError('Carrinho está vazio');
     }
 
-    CartItemEntity? existingItem;
-    int itemIndex = -1;
-
-    for (int i = 0; i < items!.length; i++) {
-      if (items![i].product?.id == product.id) {
-        existingItem = items![i];
-        itemIndex = i;
-        break;
-      }
-    }
+    CartItemEntity? existingItem = findItem(product);
 
     if (existingItem == null) {
       throw FlutterError('Produto não encontrado no carrinho');
@@ -96,11 +84,7 @@ class CartEntity {
     final currentQuantity = existingItem.quantity ?? 0;
 
     if (currentQuantity <= quantity) {
-      items!.removeAt(itemIndex);
-
-      if (items!.isEmpty) {
-        throw FlutterError('Erro ao remover último item do carrinho');
-      }
+      items!.remove(existingItem);
     } else {
       existingItem.quantity = currentQuantity - quantity;
     }
@@ -115,8 +99,6 @@ class CartEntity {
     }
     return 0;
   }
-
-  bool get isEmpty => items?.isEmpty ?? true;
 
   void clear() {
     if (items != null) {
