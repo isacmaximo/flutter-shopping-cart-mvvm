@@ -22,7 +22,7 @@ A arquitetura MVVM foi utilizada para estruturar o projeto, separando responsabi
 
 ### 1. Camada de Dados (Data Layer)
 
-* **Service:** Pega os dados brutos (simulando um JSON de uma API) e os transforma em um **DTO (Data Transfer Object)**. O DTO é uma representação pura do objeto, sem regras de negócio.
+* **Service:** Pega os dados brutos (JSON) e os transforma em um **DTO (Data Transfer Object)**. O DTO é uma representação pura do objeto, sem regras de negócio.
 * **RepositoryImpl:** É a implementação concreta do `Repository`. Ele consome o `Service` e é responsável por transformar os **DTOs** em **Entidades (Entities)**.
 
 ### 2. Camada de Domínio (Domain Layer)
